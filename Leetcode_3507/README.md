@@ -6,9 +6,9 @@ You are given an integer array `nums`.
 
 You can perform the following operation any number of times:
 
-- Select the **adjacent pair with the minimum sum**.
-- If multiple such pairs exist, choose the **leftmost** one.
-- Replace the selected pair with their **sum**.
+- Select the **adjacent pair with the minimum sum**
+- If multiple such pairs exist, choose the **leftmost** one
+- Replace the selected pair with their **sum**
 
 Return the **minimum number of operations** required to make the array **non-decreasing**.
 
@@ -17,11 +17,12 @@ An array is **non-decreasing** if
 
 ---
 
-## Key Insight
+## Key Observations
 
-- Each operation **reduces the array size by exactly one**
-- Only **local inversions** (`arr[i] > arr[i+1]`) prevent the array from being sorted
-- Repeatedly merging the minimum-sum adjacent pair eventually removes all inversions
+- Each operation reduces the array size by **one**
+- Only **local inversions** (`a[i] > a[i+1]`) matter
+- Repeatedly merging the **minimum-sum adjacent pair** eventually removes all inversions
+- The challenge is doing this **efficiently**
 
 ---
 
@@ -29,15 +30,13 @@ An array is **non-decreasing** if
 
 ### Idea
 
-This approach follows the problem statement **exactly as written**, without any optimization.
+This approach directly follows the problem statement without any optimization.
 
-At each step:
-- Scan the array to find the **minimum adjacent sum**
-- Choose the **leftmost** such pair
+At every step:
+- Scan all adjacent pairs
+- Find the minimum sum (choose leftmost on tie)
 - Merge the pair
 - Repeat until the array becomes non-decreasing
-
-This method is simple and good for understanding the problem logic.
 
 ---
 
@@ -46,39 +45,30 @@ This method is simple and good for understanding the problem logic.
 1. Copy `nums` into a working array
 2. While the array is **not non-decreasing**:
    - Scan all adjacent pairs to find the minimum sum
-   - If multiple pairs have the same sum, pick the leftmost one
-   - Replace that pair with their sum
-   - Increment the operation counter
+   - Merge the leftmost pair with that sum
+   - Increment operation counter
 3. Return the operation count
 
 ---
 
-### Brute Force Example
+### Example
 
-**Input:**  
-`nums = [5, 3, 2, 4]`
+Input: `[5, 3, 2, 4]`
 
 - Adjacent sums → `8, 5, 6`
-- Minimum sum → `(3,2)`
-- Array becomes → `[5, 5, 4]`
-
-Still decreasing.
-
+- Merge `(3,2)` → `[5, 5, 4]`
 - Adjacent sums → `10, 9`
-- Minimum sum → `(5,4)`
-- Array becomes → `[5, 9]`
+- Merge `(5,4)` → `[5, 9]`
 
-Now non-decreasing.
-
-**Output:** `2`
+Output: `2`
 
 ---
 
-### Brute Force Complexity
+### Complexity
 
-- Checking sorted order: `O(n)`
-- Finding minimum adjacent sum: `O(n)`
-- Array rebuild per merge: `O(n)`
+- Sorted check: `O(n)`
+- Min pair scan: `O(n)`
+- Merge cost: `O(n)`
 - Up to `O(n)` merges
 
 **Time Complexity:** `O(n³)`  
@@ -86,93 +76,54 @@ Now non-decreasing.
 
 ---
 
-### Brute Force Limitation
+### Limitation
 
-- Works correctly
-- Easy to implement
-- **Too slow for large inputs**
-- Causes **TLE** on competitive platforms
+- Easy to understand
+- Too slow for large inputs
+- Causes **TLE**
 
 ---
 
-## Approach 2: Optimized Simulation (Heap + Set)
+## Approach 2: Optimized (Vector + Min Heap + Bad Index Set)
 
 ### Core Idea
 
-Instead of rescanning the whole array every time:
-- Track **only where the array is decreasing**
-- Always extract the **minimum adjacent sum** efficiently
-- Update **only local changes** after each merge
+Instead of rescanning the entire array:
+- Track only **where the array is decreasing**
+- Always merge the **minimum valid adjacent sum**
+- Update only **local regions** after a merge
 
 ---
 
-### Data Structures Used
+### Data Structures
 
-1. **Dynamic Array (`vector<long long>`)**
-   - Stores the current array after merges
+1. `vector<long long> arr`  
+   - Stores current array
 
-2. **Set (`set<int> bad`)**
+2. `set<int> bad`  
    - Stores indices `i` where `arr[i] > arr[i+1]`
    - If empty → array is non-decreasing
 
-3. **Min Heap (`priority_queue`)**
-   - Stores `{sum, index}` for adjacent pairs
-   - Always provides the minimum adjacent sum
-   - Uses **lazy deletion** to discard outdated entries
+3. Min Heap (`priority_queue`)
+   - Stores `{sum, index}`
+   - Lazy deletion handles outdated pairs
 
 ---
 
-### Optimized Algorithm (Step-by-Step)
+### Algorithm Steps
 
-#### Step 1: Initialization
-- Copy `nums` into `arr`
-- Identify all decreasing indices and store them in `bad`
-- Push all adjacent pair sums into the min heap
-
----
-
-#### Step 2: Fix Disorder
-Repeat while `bad` is not empty:
-
-1. **Extract a valid minimum pair**
-   - Pop heap elements until the index is valid
-   - Ensure the stored sum matches the current adjacent sum
-
-2. **Merge the pair**
-   - Replace `arr[idx]` with `arr[idx] + arr[idx+1]`
-   - Remove `arr[idx+1]`
-   - Increment operation count
-
-3. **Update disorder (`bad` set)**
-   - Remove affected indices: `idx-1`, `idx`, `idx+1`
-   - Recheck local order and reinsert violations if needed
-
-4. **Push new adjacent sums**
-   - Push `(arr[idx-1] + arr[idx])` if valid
-   - Push `(arr[idx] + arr[idx+1])` if valid
+1. Initialize `arr`, `bad`, and heap with all adjacent sums
+2. While `bad` is not empty:
+   - Extract a valid minimum-sum pair
+   - Merge the pair
+   - Remove affected indices from `bad`
+   - Recheck local order
+   - Push new adjacent sums
+3. Return the operation count
 
 ---
 
-#### Step 3: Termination
-- When `bad` becomes empty, the array is non-decreasing
-- Return the operation count
-
----
-
-### Optimized Example
-
-**Input:**  
-`nums = [5, 3, 2, 4]`
-
-- Minimum adjacent sum `(3,2)` → merge → `[5,5,4]`
-- Minimum adjacent sum `(5,4)` → merge → `[5,9]`
-- Array becomes non-decreasing
-
-**Output:** `2`
-
----
-
-### Optimized Complexity
+### Complexity
 
 - Heap operations: `O(log n)`
 - At most `n-1` merges
@@ -182,27 +133,94 @@ Repeat while `bad` is not empty:
 
 ---
 
+### Notes
+
+- Faster than brute force
+- Needs careful handling of stale heap entries
+- Index shifting adds complexity
+
+---
+
+## Approach 3: Optimized (List + Set + Iterators)
+
+### Core Idea
+
+This approach avoids index shifting entirely by using:
+- A **doubly linked list** for merges
+- A **sorted set of adjacent sums**
+- Iterators to directly access neighbors
+
+---
+
+### Data Structures
+
+1. `list<long long> arr`
+   - Allows `O(1)` merge and erase
+
+2. `set<{sum, iterator}>`
+   - Sorted by sum
+   - Iterator points to left element of the pair
+   - Custom comparator breaks ties safely using addresses
+
+---
+
+### Algorithm Steps
+
+1. Initialize the list and insert all adjacent pair sums into the set
+2. Repeat until the array is non-decreasing:
+   - Check sorted order by single traversal
+   - Extract minimum-sum adjacent pair
+   - Remove outdated neighboring pairs
+   - Merge the selected pair
+   - Insert newly formed adjacent pairs
+   - Increment operation count
+3. Return the operation count
+
+---
+
+### Complexity
+
+- Each merge: `O(log n)` set operations + `O(1)` list operations
+- At most `n-1` merges
+
+**Time Complexity:** `O(n log n)`  
+**Space Complexity:** `O(n)`
+
+---
+
+### Advantages
+
+- No index shifting
+- Clean iterator-based logic
+- Fully STL-compliant
+- Very stable and readable
+
+---
+
 ## Comparison Summary
 
-| Approach        | Time Complexity | Space | Suitable for Large Inputs |
-|-----------------|-----------------|-------|---------------------------|
-| Brute Force     | O(n³)           | O(n)  | ❌ No                     |
-| Optimized Heap  | O(n log n)      | O(n)  | ✅ Yes                    |
+| Approach | Technique | Time | Space | Suitable |
+|--------|----------|------|-------|----------|
+| Brute Force | Full simulation | O(n³) | O(n) | ❌ |
+| Heap + Vector | Lazy heap + indices | O(n log n) | O(n) | ✅ |
+| List + Set | Iterators + ordered set | O(n log n) | O(n) | ✅ |
 
 ---
 
 ## Files
 
-- `solution.cpp` – Optimized solution using heap and set  
-- `bruteforce.cpp` – Brute force simulation  
+- `bruteforce.cpp` – Brute force solution  
+- `heap_solution.cpp` – Vector + heap + bad-index approach  
+- `solution.cpp` – List + set optimized solution  
 - `README.md` – Complete explanation (this file)
 
 ---
 
 ## Final Notes
 
-- Brute force is excellent for **learning and validation**
-- Optimized solution is required for **real constraints**
-- Both together make this README **clear, complete, and professional**
+- Brute force helps understand the mechanics
+- Heap approach improves performance with index tracking
+- List-based approach is the cleanest and safest
+- Keeping all three makes the README **educational and professional**
 
 Happy coding 🚀
