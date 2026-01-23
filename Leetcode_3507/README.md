@@ -2,65 +2,207 @@
 
 ## Problem Statement
 
-Given an array `nums`, you can perform the following operation any number of times:
+You are given an integer array `nums`.
 
-Select the adjacent pair with the minimum sum in `nums`. If multiple such pairs exist, choose the leftmost one. Replace the selected pair with their sum.
+You can perform the following operation any number of times:
 
-Return the minimum number of operations needed to make the array non-decreasing.
+- Select the **adjacent pair with the minimum sum**.
+- If multiple such pairs exist, choose the **leftmost** one.
+- Replace the selected pair with their **sum**.
 
-An array is said to be non-decreasing if each element is greater than or equal to its previous element (if it exists).
+Return the **minimum number of operations** required to make the array **non-decreasing**.
 
----
-
-## Key Observation
-
-Each operation reduces the size of the array by exactly one. Merging two adjacent elements can reduce local disorder in the array. Repeating this process eventually leads to a non-decreasing array. The brute-force approach simulates the process exactly as described in the problem without applying any optimizations.
-
----
-
-## Approach: Brute Force Simulation
-
-The brute-force approach repeatedly applies the given operation until the array becomes non-decreasing. In each step, the algorithm scans the entire array to identify the adjacent pair with the minimum sum. If multiple such pairs exist, the leftmost one is selected. That pair is then replaced with their sum, and the process is repeated.
-
-This approach guarantees correctness because it strictly follows the rules defined in the problem statement, but it is computationally expensive due to repeated full scans of the array.
+An array is **non-decreasing** if  
+`nums[i] >= nums[i - 1]` for all valid `i`.
 
 ---
 
-## Algorithm
+## Key Insight
 
-First, copy the input array into a working array. Check whether the array is already non-decreasing. If it is not, scan all adjacent pairs to determine the pair with the minimum sum, prioritizing the leftmost pair in case of a tie. Replace the selected pair with their sum, reducing the array size by one. Increment the operation counter and repeat the process until the array becomes non-decreasing. Finally, return the total number of operations performed.
-
----
-
-## Example
-
-Consider the array `nums = [5, 3, 2, 4]`. The adjacent sums are 8, 5, and 6. The minimum sum is obtained from the pair (3, 2), which is replaced by 5, resulting in the array [5, 5, 4]. The array is still not non-decreasing. In the next step, the adjacent sums are 10 and 9. The pair (5, 4) is replaced by 9, resulting in the array [5, 9], which is non-decreasing. Therefore, the minimum number of operations required is 2.
+- Each operation **reduces the array size by exactly one**
+- Only **local inversions** (`arr[i] > arr[i+1]`) prevent the array from being sorted
+- Repeatedly merging the minimum-sum adjacent pair eventually removes all inversions
 
 ---
 
-## Time Complexity
+## Approach 1: Brute Force Simulation
 
-Checking whether the array is non-decreasing requires a full scan of the array, which takes linear time. Finding the adjacent pair with the minimum sum also requires a linear scan. Rebuilding the array after each merge operation takes linear time as well. Since up to a linear number of merge operations may be required, the overall time complexity of the brute-force approach is cubic in the size of the array.
+### Idea
 
-Overall time complexity: O(n³)
+This approach follows the problem statement **exactly as written**, without any optimization.
 
----
+At each step:
+- Scan the array to find the **minimum adjacent sum**
+- Choose the **leftmost** such pair
+- Merge the pair
+- Repeat until the array becomes non-decreasing
 
-## Space Complexity
-
-Additional space is required to store the modified array after each merge operation. The space complexity of the brute-force approach is linear with respect to the size of the array.
-
-Overall space complexity: O(n)
-
----
-
-## Notes
-
-This brute-force solution is easy to understand and directly mirrors the problem description. It is useful for learning, debugging, and validating logic, but it is not suitable for large inputs due to its high time complexity and may result in a time limit exceeded error on competitive programming platforms.
+This method is simple and good for understanding the problem logic.
 
 ---
 
-## File Structure
+### Brute Force Algorithm
 
-bruteforce.cpp – Brute-force simulation implementation  
-README.md – Problem description and brute-force analysis
+1. Copy `nums` into a working array
+2. While the array is **not non-decreasing**:
+   - Scan all adjacent pairs to find the minimum sum
+   - If multiple pairs have the same sum, pick the leftmost one
+   - Replace that pair with their sum
+   - Increment the operation counter
+3. Return the operation count
+
+---
+
+### Brute Force Example
+
+**Input:**  
+`nums = [5, 3, 2, 4]`
+
+- Adjacent sums → `8, 5, 6`
+- Minimum sum → `(3,2)`
+- Array becomes → `[5, 5, 4]`
+
+Still decreasing.
+
+- Adjacent sums → `10, 9`
+- Minimum sum → `(5,4)`
+- Array becomes → `[5, 9]`
+
+Now non-decreasing.
+
+**Output:** `2`
+
+---
+
+### Brute Force Complexity
+
+- Checking sorted order: `O(n)`
+- Finding minimum adjacent sum: `O(n)`
+- Array rebuild per merge: `O(n)`
+- Up to `O(n)` merges
+
+**Time Complexity:** `O(n³)`  
+**Space Complexity:** `O(n)`
+
+---
+
+### Brute Force Limitation
+
+- Works correctly
+- Easy to implement
+- **Too slow for large inputs**
+- Causes **TLE** on competitive platforms
+
+---
+
+## Approach 2: Optimized Simulation (Heap + Set)
+
+### Core Idea
+
+Instead of rescanning the whole array every time:
+- Track **only where the array is decreasing**
+- Always extract the **minimum adjacent sum** efficiently
+- Update **only local changes** after each merge
+
+---
+
+### Data Structures Used
+
+1. **Dynamic Array (`vector<long long>`)**
+   - Stores the current array after merges
+
+2. **Set (`set<int> bad`)**
+   - Stores indices `i` where `arr[i] > arr[i+1]`
+   - If empty → array is non-decreasing
+
+3. **Min Heap (`priority_queue`)**
+   - Stores `{sum, index}` for adjacent pairs
+   - Always provides the minimum adjacent sum
+   - Uses **lazy deletion** to discard outdated entries
+
+---
+
+### Optimized Algorithm (Step-by-Step)
+
+#### Step 1: Initialization
+- Copy `nums` into `arr`
+- Identify all decreasing indices and store them in `bad`
+- Push all adjacent pair sums into the min heap
+
+---
+
+#### Step 2: Fix Disorder
+Repeat while `bad` is not empty:
+
+1. **Extract a valid minimum pair**
+   - Pop heap elements until the index is valid
+   - Ensure the stored sum matches the current adjacent sum
+
+2. **Merge the pair**
+   - Replace `arr[idx]` with `arr[idx] + arr[idx+1]`
+   - Remove `arr[idx+1]`
+   - Increment operation count
+
+3. **Update disorder (`bad` set)**
+   - Remove affected indices: `idx-1`, `idx`, `idx+1`
+   - Recheck local order and reinsert violations if needed
+
+4. **Push new adjacent sums**
+   - Push `(arr[idx-1] + arr[idx])` if valid
+   - Push `(arr[idx] + arr[idx+1])` if valid
+
+---
+
+#### Step 3: Termination
+- When `bad` becomes empty, the array is non-decreasing
+- Return the operation count
+
+---
+
+### Optimized Example
+
+**Input:**  
+`nums = [5, 3, 2, 4]`
+
+- Minimum adjacent sum `(3,2)` → merge → `[5,5,4]`
+- Minimum adjacent sum `(5,4)` → merge → `[5,9]`
+- Array becomes non-decreasing
+
+**Output:** `2`
+
+---
+
+### Optimized Complexity
+
+- Heap operations: `O(log n)`
+- At most `n-1` merges
+
+**Time Complexity:** `O(n log n)`  
+**Space Complexity:** `O(n)`
+
+---
+
+## Comparison Summary
+
+| Approach        | Time Complexity | Space | Suitable for Large Inputs |
+|-----------------|-----------------|-------|---------------------------|
+| Brute Force     | O(n³)           | O(n)  | ❌ No                     |
+| Optimized Heap  | O(n log n)      | O(n)  | ✅ Yes                    |
+
+---
+
+## Files
+
+- `solution.cpp` – Optimized solution using heap and set  
+- `bruteforce.cpp` – Brute force simulation  
+- `README.md` – Complete explanation (this file)
+
+---
+
+## Final Notes
+
+- Brute force is excellent for **learning and validation**
+- Optimized solution is required for **real constraints**
+- Both together make this README **clear, complete, and professional**
+
+Happy coding 🚀
