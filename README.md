@@ -8,6 +8,10 @@ This repository is a dedicated space for my LeetCode journey. It serves as a dig
 
 | Date | # | Problem Name | Difficulty | Status |
 | :--- | :--- | :--- | :--- | :--- |
+| Feb 14, 2026 | 799 | [Champagne Tower](https://leetcode.com/problems/champagne-tower/) | Medium | ✅ Submitted  |
+| Feb 13, 2026 | 3714 | [longest Balanced Subastring II](https://leetcode.com/problems/longest-balanced-substring-ii/) | Hard | ⏳  Pending : Revision |
+| Feb 12, 2026 | 3713 | [Longest Balanced Substring I](https://leetcode.com/problems/longest-balanced-substring-i/) | Medium | ✅ Submitted : Segment Tree |
+| Feb 11, 2026 | 3721 | [longest Balanced Subarray II](https://leetcode.com/problems/longest-balanced-subarray-ii/) | Hard | ⏳  Pending : Revision |
 | Feb 10, 2026 | 3719 | [Longest Balanced Subarray I](https://leetcode.com/problems/longest-balanced-subarray-i/) | Medium | ⏳ next approach: divide and concure and prefix sum |
 | Feb 09, 2026 | 1200 | [Minimum Absolute Difference](https://leetcode.com/problems/minimum-absolute-difference/) | Easy | ✅ Submitted |
 | Feb 09, 2026 | 3650 | [Minimum Cost Path with Edge...](https://leetcode.com/problems/minimum-cost-path-with-edge-weight-limit/) | Med. | ✅ Submitted |
