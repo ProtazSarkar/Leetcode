@@ -6,13 +6,18 @@ This repository is a dedicated space for my LeetCode journey. It serves as a dig
 
 ## 🚀 Problem-Solving History
 
+<details>
+<summary>February 2026</summary>
+
 | Date | # | Problem Name | Difficulty | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| Feb 14, 2026 | 799 | [Champagne Tower](https://leetcode.com/problems/champagne-tower/) | Medium | ✅ Submitted  |
-| Feb 13, 2026 | 3714 | [longest Balanced Subastring II](https://leetcode.com/problems/longest-balanced-substring-ii/) | Hard | ⏳  Pending : Revision |
+| Feb 15, 2026 | 67 | [Add Binary](https://leetcode.com/problems/add-binary/) | Easy | ✅ Submitted |
+| Feb 15, 2026 | 240 | [Search a 2D Matrix II](https://leetcode.com/problems/search-a-2d-matrix-ii/) | Medium | ✅ Submitted |
+| Feb 14, 2026 | 799 | [Champagne Tower](https://leetcode.com/problems/champagne-tower/) | Medium | ✅ Submitted |
+| Feb 13, 2026 | 3714 | [Longest Balanced Substring II](https://leetcode.com/problems/longest-balanced-substring-ii/) | Hard | ⏳ Pending : Revision |
 | Feb 12, 2026 | 3713 | [Longest Balanced Substring I](https://leetcode.com/problems/longest-balanced-substring-i/) | Medium | ✅ Submitted : Segment Tree |
-| Feb 11, 2026 | 3721 | [longest Balanced Subarray II](https://leetcode.com/problems/longest-balanced-subarray-ii/) | Hard | ⏳  Pending : Revision |
-| Feb 10, 2026 | 3719 | [Longest Balanced Subarray I](https://leetcode.com/problems/longest-balanced-subarray-i/) | Medium | ⏳ next approach: divide and concure and prefix sum |
+| Feb 11, 2026 | 3721 | [Longest Balanced Subarray II](https://leetcode.com/problems/longest-balanced-subarray-ii/) | Hard | ⏳ Pending : Revision |
+| Feb 10, 2026 | 3719 | [Longest Balanced Subarray I](https://leetcode.com/problems/longest-balanced-subarray-i/) | Medium | ⏳ next approach: divide and conquer and prefix sum |
 | Feb 09, 2026 | 1200 | [Minimum Absolute Difference](https://leetcode.com/problems/minimum-absolute-difference/) | Easy | ✅ Submitted |
 | Feb 09, 2026 | 3650 | [Minimum Cost Path with Edge...](https://leetcode.com/problems/minimum-cost-path-with-edge-weight-limit/) | Med. | ✅ Submitted |
 | Feb 09, 2026 | 3651 | [Minimum Cost Path with...](https://leetcode.com/problems/minimum-cost-path-with-special-roads/) | Hard | ❌ Unsubmitted |
@@ -27,3 +32,5 @@ This repository is a dedicated space for my LeetCode journey. It serves as a dig
 | Feb 07, 2026 | 1653 | [Minimum Deletions to Make String...](https://leetcode.com/problems/minimum-deletions-to-make-string-balanced/) | Med. | ✅ Submitted |
 | Feb 07, 2026 | 0110 | [Balanced Binary Tree](https://leetcode.com/problems/balanced-binary-tree/) | Easy | ✅ Submitted |
 | Feb 07, 2026 | 1382 | [Balance a Binary Search Tree](https://leetcode.com/problems/balance-a-binary-search-tree/) | Med. | ✅ Submitted |
+
+</details>
