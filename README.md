@@ -11,6 +11,7 @@ This repository is a dedicated space for my LeetCode journey. It serves as a dig
 
 | Date | # | Problem Name | Difficulty | Status |
 | :--- | :--- | :--- | :--- | :--- |
+| Feb 20, 2026 | 761 | [Special Binary String](https://leetcode.com/problems/special-binary-string/) | Hard | ✅ Submitted |
 | Feb 15, 2026 | 67 | [Add Binary](https://leetcode.com/problems/add-binary/) | Easy | ✅ Submitted |
 | Feb 15, 2026 | 240 | [Search a 2D Matrix II](https://leetcode.com/problems/search-a-2d-matrix-ii/) | Medium | ✅ Submitted |
 | Feb 14, 2026 | 799 | [Champagne Tower](https://leetcode.com/problems/champagne-tower/) | Medium | ✅ Submitted |
