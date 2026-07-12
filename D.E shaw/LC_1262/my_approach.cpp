@@ -24,24 +24,34 @@
 using namespace std;
 
 class Solution {
-    const int INF=1e9;
 public:
-    int coinChange(vector<int>& coins, int amount) {
-        int n = coins.size();
-        vector<vector<int>> dp(n+1,vector<int>(amount+1,INF));
+    int maxSumDivThree(vector<int>& nums) {
+        int n=nums.size();
+        int sum=0;
+        for(int num : nums){
+            sum+=num;
+        }
+
+        vector<vector<bool>> dp(n+1,vector<bool>(sum+1,false));
         for(int i=0;i<=n;i++){
-            dp[i][0]=0;
+            dp[i][0]=true;
         }
 
         for(int i=1;i<=n;i++){
-            for(int j=1;j<=amount;j++){
-                if(j-coins[i-1]>=0){
-                    dp[i][j]=min(dp[i-1][j],dp[i-1][j-coins[i-1]]+1);
+            for(int j=1;j<=sum;j++){
+                if(j-nums[i-1] >= 0){
+                    dp[i][j]=dp[i-1][j] || dp[i-1][j-nums[i-1]];
                 }
             }
         }
 
-        if(dp[n][amount]==INF)  return -1;
-        return dp[n][amount];
+        int max_s=0;
+        for(int i=0;i<=sum;i+=3){
+            if(dp[n][i]){
+                max_s=i;
+            }
+        }
+
+        return max_s;
     }
 };
