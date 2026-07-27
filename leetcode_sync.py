@@ -8,7 +8,7 @@ load_dotenv()
 LEETCODE_GRAPHQL_URL = "https://leetcode.com/graphql"
 USERNAME = os.getenv("LEETCODE_USERNAME")
 
-QUERY_RECENT_AC = """
+QUERY_RECENT_AC = """ 
 query recentAcSubmissions($username: String!, $limit: Int!) {
   recentAcSubmissionList(username: $username, limit: $limit) {
     id
