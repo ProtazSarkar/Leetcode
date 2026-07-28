@@ -1,28 +1,25 @@
 class Solution {
-    bool is_subseq(string a, string b){
-        // a is the main string and if b is the sunsequent
+    bool is_subseq(string a ,string b){
+        //a is the main string and b is the subsequesnt
         int j=0;
         for(int i=0;i<a.length();i++){
-            if(j<b.length() && b[j]==a[i]){
+            if(j<b.length() && a[i] == b[j]){
                 j++;
             }
         }
-
         return j == b.length();
     }
 public:
     string findLongestWord(string s, vector<string>& dictionary) {
         string ans = "";
-        for(string dic : dictionary){
-            if(is_subseq(s,dic)){
-                if(ans.length() == dic.length()){
-                    if(ans > dic){
-                        ans = dic;
+        for(string d : dictionary){
+            if(is_subseq(s,d)){
+                if(ans.length() == d.length()){
+                    if(ans > d){
+                        ans = d;
                     }
-                }else{
-                    if(ans.length() < dic.length()){
-                        ans = dic;
-                    }
+                }else if(ans.length() < d.length()){
+                    ans = d;
                 }
             }
         }
