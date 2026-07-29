@@ -25,27 +25,21 @@ using namespace std;
 
 class Solution {
 public:
-    vector<int> majorityElement(vector<int>& nums) {
-        int n = nums.size();
-        int t = n/3;
-        vector<int> ans;
-        ans.reserve(n);
-
-        sort(nums.begin(),nums.end());
-        int i=0;
-        while(i<n){
-            int j=i;int count =0;
-            while(j<n && nums[i] == nums[j]){
-                j++;count++;
-            }
-
-            if(count > t){
-                ans.push_back(nums[i]);
-            }
-
-            i=j;
+    vector<int> smallerNumbersThanCurrent(vector<int>& nums) {
+        int MAX = 502;
+        vector<int> freq(MAX,0);
+        for(int num : nums){
+            freq[num+1]++;
         }
-        
+
+        for(int i=1;i<MAX;i++){
+            freq[i]+=freq[i-1];
+        }
+
+        vector<int> ans; ans.reserve(nums.size());
+        for(int num : nums){
+            ans.push_back(freq[num]);
+        }
         return ans;
     }
 };

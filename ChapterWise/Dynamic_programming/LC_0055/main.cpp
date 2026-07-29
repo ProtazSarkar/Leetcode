@@ -25,22 +25,22 @@ using namespace std;
 
 class Solution {
 public:
-    vector<vector<string>> groupAnagrams(vector<string>& strs) {
-        unordered_map<string,vector<string>> mp;
-        for(string s : strs){
-            string key = s;
-            sort(key.begin(),key.end());
+    bool canJump(vector<int>& nums) {
+        int n = nums.size();
 
-            mp[key].push_back(s);
+        //dp create and base case define
+        vector<int> can_reach(n,false);
+        can_reach[0] = true;
+
+        for(int i=0;i<n-1;i++){
+            if(can_reach[i]){
+                for(int j=0;j<nums[i];j++){
+                    int next = min(n-1, i+j+1);
+                    can_reach[next] = true;
+                }
+            }
         }
 
-        vector<vector<string>> ans;
-        ans.reserve(mp.size());
-
-        for(auto pair : mp){
-            ans.push_back(pair.second);
-        }
-
-        return ans;
+        return can_reach[n-1];
     }
 };
