@@ -24,23 +24,15 @@
 using namespace std;
 
 class Solution {
-    int solve(int i,int pre,vector<int>& nums){
-        if(i>= nums.size()){
-            return 0;
-        }
-
-        int take = 0;
-        if(pre == -1 || nums[i] > nums[pre]){
-            take = 1 + solve(i+1,i,nums);
-        }
-
-        int skip = solve(i+1,pre,nums);
-
-        return max(take,skip);
-    }
-
 public:
-    int lengthOfLIS(vector<int>& nums) {
-        return solve(0,-1,nums);
+    int hammingDistance(int x, int y) {
+        int xorv = x ^ y;
+        int dis = 0;
+
+        while(xorv > 0){
+            xorv = xorv & (xorv-1);
+            dis ++;
+        }
+        return dis;
     }
 };

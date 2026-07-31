@@ -25,7 +25,7 @@ def run_command(command, capture_output=False):
 
 
 def main():
-    print("\033[96m[*] Staging changes...\033[0m")
+    print("\033[96m[*] Staging changes...(git add .)\033[0m")
     run_command("git add .")
     time.sleep(5)  # Sleep station 1
 
@@ -57,6 +57,7 @@ def main():
         )
         git_commit.communicate(input=commit_message)
         commit_code = git_commit.returncode
+        print(f'commit message {commit_message}')
     except Exception as e:
         print(f"\033[91m[!] Failed to commit: {e}\033[0m")
         sys.exit(1)
