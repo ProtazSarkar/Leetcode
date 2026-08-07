@@ -35,7 +35,7 @@ class Solution {
         for(int neb : adj[node]){
             if(neb == parent)   continue;
             if(discover_time[neb] == -1){
-                //neighbour is not visited
+                //neighbour is not visited 
                 dfs(neb,node,time,adj,discover_time,low,critical_edges);
 
                 //update the low
