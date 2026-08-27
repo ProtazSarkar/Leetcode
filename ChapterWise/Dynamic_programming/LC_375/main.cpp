@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <numeric>
 #include <climits>
+#include <cstring>
 #include <cmath>
 
 using namespace std;
