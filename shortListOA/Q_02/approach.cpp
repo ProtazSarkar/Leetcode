@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <algorithum>
+#include <algorithm>
 
 using namespace std;
 
@@ -25,9 +25,7 @@ public:
             if(featureAvailability[i][1] == '1'){
                 modelB.push_back({cost[i],i});
             }
-            if(featureAvailability[0][0] == '1' && featureAvailability[0][1] == '1'){
-                is_both[i] = true;
-            }
+            
         }
 
         sort(modelA.begin(),modelB.end());

@@ -18,6 +18,7 @@ bool is_possible(int k,string shader,int switchCount){
 
         int blocklen = j-i;
         count += blocklen / (k+1);
+        i=j;
     }
     return count <= switchCount;
 }
